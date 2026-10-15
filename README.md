@@ -57,7 +57,7 @@ issues. Do not attach private data or unredacted personal images to public issue
 
 Part of Arcdrake's tools collection. The planned shared home is `tools.arcdrake.com`;
 production hosting is not live as part of this source release. Local use is available
-above. Development checks use Node.js 24, Python 3 and locked Playwright tooling:
+above. Development checks use Node.js 24 and locked Playwright tooling:
 
 ```sh
 npm ci

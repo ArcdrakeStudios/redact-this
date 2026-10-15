@@ -4,7 +4,7 @@ Please open an issue before a substantial change. Small, focused fixes are welco
 Fork the repository, create a branch and submit a pull request against `main`.
 Use synthetic inputs in reports, screenshots and tests; do not post private data.
 
-Use Node.js 24 and Python 3. Install development tools with `npm ci`, then run:
+Use Node.js 24. Install development tools with `npm ci`, then run:
 
 ```sh
 npx playwright install chromium

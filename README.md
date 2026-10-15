@@ -4,12 +4,11 @@ An Arcdrake browser tool for manual image redaction. Choose a still JPG, PNG or 
 
 ![Local desktop preview](docs/screenshots/desktop.png)
 
-[Mobile preview](docs/screenshots/mobile.png), captured with synthetic data in local
-Chromium on 14 October 2026. These screenshots do not establish public hosting.
+[Mobile preview](docs/screenshots/mobile.png). Screenshots use synthetic examples.
 
 ## Run locally
 
-Install Node.js 22+ (checks used 24.14.0). No runtime dependencies or package install
+Install Node.js 24 or newer. No runtime dependencies or package install
 are required. From the repository root:
 
 ```sh
@@ -38,11 +37,11 @@ No account, application upload, analytics or saved editing session. Limits: 40 M
 40 million decoded pixels, 16,384 pixels per side and 200 masks. Animated PNG/WebP
 and SVG are rejected; PDFs are unsupported. Header/decoding validation does not
 promise exhaustive file-format compatibility. Refreshing clears the editing session.
-Owner acceptance remains open. The image decoder adapts owner-authored Shrink This
-Image code; its provenance is preserved in the notices.
+The image decoder shares code with Shrink This Image; see the attribution in
+[third-party notices](THIRD_PARTY_NOTICES.md).
 
-Local Chromium checks cover desktop and 390/320px layouts. Physical-device,
-screen-reader and native Safari/Firefox acceptance remain unverified. The public website launch is separate from this source release.
+Browser tests cover Chromium desktop and 390/320px layouts. Physical devices,
+screen readers, Safari and Firefox have not been tested.
 
 ## Licence and feedback
 

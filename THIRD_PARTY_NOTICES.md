@@ -1,6 +1,6 @@
 # Third-party and asset notices
 
- The application ships no npm dependencies, vendored
+The application ships no npm dependencies, vendored
 libraries, remote scripts, external images or font files. Interface styling and
 textual/glyph branding are project-authored; browser/system fonts provide glyphs.
 The named font fallbacks do not bundle a font or grant rights to external font files.

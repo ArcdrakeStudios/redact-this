@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob: data:; style-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>Redact This — Cover what stays private</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header><a class="brand" href="#">▰ <strong>Redact This</strong><span>BY ARCDRAKE</span></a><span class="privacy">● On your device</span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">SHARE THE IMAGE. KEEP THE DETAILS.</p><h1>Cover what<br>stays private.</h1><p>Draw solid masks over names, faces, and sensitive details.<br> Download a flattened PNG that leaves the original metadata behind.</p></section>
+    <div class="notice">Manual redaction. Nothing is detected automatically. Check every detail before sharing.</div>
+    <section id="empty" class="upload">
+      <span class="upload-icon">▧</span><h2>Start with an image</h2><p>JPG, PNG or WebP · up to 40 MB and 40 megapixels</p><button id="choose" class="primary">Choose image</button><p class="fine">Your file stays in this browser. No upload, account, or server.</p>
+    </section>
+    <input id="file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+    <p id="status" role="status" aria-live="polite"></p>
+    <section id="loaded" hidden>
+      <div class="toolbar"><div><strong id="filename"></strong><small id="dimensions"></small></div><button id="replace">Replace image</button><button id="undo">Undo last mask</button><button id="preview">Preview output</button><button id="export" class="primary">Download PNG ↗</button></div>
+      <div class="workspace">
+        <section class="image-panel"><div class="panel-heading"><h2 id="mode-title">01 / Mark private details</h2><span id="hint">Drag to cover a region</span></div><div class="canvas-wrap"><canvas id="canvas" aria-label="Image editor. Draw a rectangle with the pointer, or use the coordinate form to add a mask with a keyboard." tabindex="0"></canvas></div><p class="fine">Masks are solid black, never blur. Coordinates use original image pixels.</p></section>
+        <aside class="controls"><h2>02 / Your masks</h2><p class="fine">For keyboard use or precise coverage, enter a rectangle below.</p><form id="region-form"><div class="fields"><label>Left / X<input id="x" type="number" min="0" value="0" required></label><label>Top / Y<input id="y" type="number" min="0" value="0" required></label><label>Width<input id="width" type="number" min="1" value="100" required></label><label>Height<input id="height" type="number" min="1" value="100" required></label></div><button type="submit" id="add">＋ Add opaque mask</button></form><p id="count" class="count"></p><div id="regions"></div><div class="checklist"><strong>Before you share</strong><p>Look for text, faces, reflections and background details. Zoom your downloaded file to confirm coverage. Keep the original private.</p></div></aside>
+      </div>
+    </section>
+  </main>
+  <footer>Local pixels. Solid coverage. A clean new file.<span>Redact This / Arcdrake</span></footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

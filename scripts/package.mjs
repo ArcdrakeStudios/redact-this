@@ -2,7 +2,7 @@
 import {readFile, writeFile, mkdir, readdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {resolve} from 'node:path';
-const files = ["index.html", "style.css", "app.js", "image.js", "regions.js"];
+const files = ["index.html", "style.css", "app.js", "i18n.js", "image.js", "regions.js"];
 const output = resolve('artifacts/release');
 await mkdir(output, {recursive:true});
 const allowed = [...files, 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'manifest.json'];

@@ -41,3 +41,6 @@ input {width:100%;min-width:0;padding:9px;border:1px solid #c6d1c4;border-radius
 footer {display:flex;justify-content:space-between;font-size:11px;color:#74816d;gap:15px;margin-top:24px}
 [hidden] {display:none!important}
 @media(max-width:850px){header,main,footer{padding:20px}.workspace{grid-template-columns:1fr}.brand span{display:none}.image-panel,.controls{padding:16px}h1{letter-spacing:-2px}.intro>p:last-child br{display:none}.toolbar{gap:8px}.toolbar>div{width:100%;max-width:none}.panel-heading{align-items:flex-start}}
+
+#language-control{display:flex;align-items:center;gap:.4rem;font-size:.8rem;white-space:nowrap}#language-control select{width:auto;min-width:6rem;padding:.4rem;color:inherit;background:transparent;border:1px solid currentColor;border-radius:.3rem}header{flex-wrap:wrap;gap:1rem}#language-control option{color:#17253d;background:#fff}
+#language-control{flex-wrap:wrap;white-space:normal;max-width:100%}#language-control select{max-width:100%;min-width:0}

@@ -1,3 +1,4 @@
+import './i18n.js';
 import {loadImage} from './image.js';
 import {region, paint, encode} from './regions.js';
 

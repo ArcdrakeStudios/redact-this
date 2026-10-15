@@ -37,7 +37,7 @@ No account, application upload, analytics or saved editing session. Limits: 40 M
 40 million decoded pixels, 16,384 pixels per side and 200 masks. Animated PNG/WebP
 and SVG are rejected; PDFs are unsupported. Header/decoding validation does not
 promise exhaustive file-format compatibility. Refreshing clears the editing session.
-The image decoder shares code with Shrink This Image; see the attribution in
+The image decoder is adapted from Shrink This Image; see the attribution in
 [third-party notices](THIRD_PARTY_NOTICES.md).
 
 Browser tests cover Chromium desktop and 390/320px layouts. Physical devices,

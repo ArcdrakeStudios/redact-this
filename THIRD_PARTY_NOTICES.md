@@ -1,6 +1,6 @@
 # Third-party and asset notices
 
-Reviewed 14 October 2026. The application ships no npm dependencies, vendored
+ The application ships no npm dependencies, vendored
 libraries, remote scripts, external images or font files. Interface styling and
 textual/glyph branding are project-authored; browser/system fonts provide glyphs.
 The named font fallbacks do not bundle a font or grant rights to external font files.
@@ -13,7 +13,7 @@ Do not copy installed runtimes or browser binaries into a product release.
 `dist/image.js` adapts image header validation and decoding from
 [Shrink This Image](https://github.com/ArcdrakeStudios/shrink-this-image),
 copyright 2026 Michael Eigner-Dietl, licensed under MIT. Compression functionality
-is not included in this shared helper.
+is not included in this adapted helper.
 
 Application source is available under the [MIT licence](LICENSE). Retain the
 copyright and licence notices when redistributing it. Dependencies retain their

@@ -22,6 +22,7 @@ jobs:
       - run: npx --no-install playwright install --with-deps chromium
       - run: npm test
       - run: npm run test:ci
+      - run: npm run test:i18n
       - run: npm run package:release
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

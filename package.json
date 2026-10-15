@@ -9,7 +9,8 @@
     "test:browser": "node tests/browser.mjs",
     "build": "node scripts/package.mjs",
     "test:ci": "node ci/browser.mjs",
-    "package:release": "node scripts/package.mjs"
+    "package:release": "node scripts/package.mjs",
+    "test:i18n": "node tests/localization.mjs"
   },
   "license": "MIT",
   "engines": {

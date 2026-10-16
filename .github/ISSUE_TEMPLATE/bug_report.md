@@ -12,8 +12,10 @@ assignees: ""
 
 ## Steps to reproduce
 
+## Hosted app or self-hosted copy?
+
 ## Browser and version
 
 ## Screenshots (remove private information)
 
-For security vulnerabilities, use SECURITY.md instead.
+For security vulnerabilities, use [private security reporting](https://github.com/ArcdrakeStudios/redact-this/security/advisories/new) instead.

@@ -1,22 +1,48 @@
-# Release procedure
+# Packaging and self-hosting
 
-The canonical source is https://github.com/ArcdrakeStudios/redact-this.
-The planned shared product home is `tools.arcdrake.com`; its production launch is
-separate from source publication. This repository does not automatically deploy.
+The hosted app is at [tools.arcdrake.com/redact/](https://tools.arcdrake.com/redact/).
+This repository contains its source and packaging tools. Repository CI and artifact
+preparation do not deploy the hosted app.
 
-1. Merge through the protected pull-request workflow with `verify` passing and
-   review findings resolved. Record independent review for an owner-authored PR.
-2. Dispatch **Prepare release artifact** on `main`. The `release` environment
-   requires owner approval and restricts runs to main. It repeats tests and packages
-   the checked-out SHA. The artifact is named with that SHA and retained for 30 days.
-3. Inspect the package manifest/hashes. Download and retain the artifact and manifest
-   in the deployment release archive before GitHub retention expires.
-4. Website deployment belongs to the separate infrastructure workflow. Pin this
-   public commit and artifact hash there; verify routing, security headers and user
-   journeys on the production origin. No credentials or deployment hooks live here.
-5. Keep the previous verified artifact and manifest. Roll back through the same
-   infrastructure workflow to those exact bytes, then check the live product.
+## Create a static package
 
-Do not deploy from a contributor branch, arbitrary tag or local working directory.
-Static host logs and origin-dependent browser behavior require separate deployment
-verification. The initial source publication is not evidence of a live public site.
+With Node.js 24 or newer, run from the repository root:
+
+```sh
+npm test
+npm run package:release
+```
+
+No package installation is needed for these two commands. Browser checks require
+the development setup in [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+The output in `artifacts/release/` contains:
+
+- `index.html`, `style.css`, `app.js`, `i18n.js`, `image.js`, `regions.js`
+- `LICENSE` and `THIRD_PARTY_NOTICES.md`
+- `manifest.json`, listing SHA-256 hashes of the packaged files
+
+Packaging uses an explicit file list and refuses unexpected existing output files.
+No build, download or deployment takes place. The manual **Prepare release artifact**
+GitHub workflow runs checks and uploads a package identified by its source commit.
+
+## Self-host
+
+Publish the contents of `artifacts/release/` to a static HTTPS host. Do not publish
+the repository root, development dependencies or test outputs. Keep the licence
+and attribution notices with redistributed copies.
+
+The app uses relative asset URLs and can run at a domain root or beneath a
+directory such as `/redact/`. Redirect a directory URL without a trailing slash
+to its trailing-slash form. Serve JavaScript, CSS and HTML with the correct MIME
+types. No backend, database or application secrets are required.
+
+Deploy all files together and avoid immutable caching for unversioned asset names.
+The HTML includes a Content Security Policy; configure response headers appropriate
+to your host, including `X-Content-Type-Options: nosniff` and
+`Referrer-Policy: no-referrer`. Document hosting access logs in your privacy notice.
+
+After deployment, open the page in both languages, redact a synthetic image,
+download it and inspect its pixels and dimensions. Check narrow layouts and the
+browser console for loading errors. Keep the preceding complete package if you
+need to roll back.

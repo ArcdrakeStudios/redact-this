@@ -1,11 +1,14 @@
 ## Problem and change
 
+Describe the user problem and how this change addresses it.
+
 ## Verification
 
-## Privacy, security and dependency impact
+Describe the checks you ran and any remaining limitations.
 
-- [ ] Tests pass and limitations are stated.
+## Checklist
+
+- [ ] Relevant checks pass.
 - [ ] Examples and screenshots contain no private information.
 - [ ] Documentation matches the behavior.
-
-## Independent review evidence (required for owner review exception)
+- [ ] Any privacy, security or dependency changes are explained.

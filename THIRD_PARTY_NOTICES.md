@@ -10,7 +10,7 @@ Node.js and Playwright/Chromium are development/test tools, not included in the
 static release. Their own distributions retain their respective upstream licences.
 Do not copy installed runtimes or browser binaries into a product release.
 
-`dist/image.js` adapts image header validation and decoding from
+`dist/image.js` adapts image header validation and loading from
 [Shrink This Image](https://github.com/ArcdrakeStudios/shrink-this-image),
 copyright 2026 Michael Eigner-Dietl, licensed under MIT. Compression functionality
 is not included in this adapted helper.

@@ -19,3 +19,6 @@ window.addEventListener('storage', () => ui.refreshChoice());
 window.addEventListener('pageshow', () => ui.refreshChoice());
 document.getElementById('feedback-local').hidden = true;
 // Text localization is handled by i18n.js without replacing the form or its draft.
+
+// Announce the locale selected before this native consent dialog mounted.
+window.dispatchEvent(new CustomEvent('arcdrake-language-change', {detail:{language:document.documentElement.lang}}));

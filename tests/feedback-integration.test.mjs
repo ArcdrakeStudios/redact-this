@@ -24,7 +24,7 @@ test('actual product adapter mounts without submission; language preserves a fai
   const doc={documentElement:{lang:'de'},createElement:tag=>new Element(tag,doc)};
   doc.getElementById=id=>{if(!nodes.has(id))nodes.set(id,new Element('div',doc));return nodes.get(id);};
   try {
-    Object.assign(globalThis,{document:doc,window:{addEventListener:(key,fn)=>listeners[key]=fn},location:{hostname:'127.0.0.1'},
+    Object.assign(globalThis,{document:doc,window:{addEventListener:(key,fn)=>listeners[key]=fn,dispatchEvent:event=>listeners[event.type]?.(event)},location:{hostname:'127.0.0.1'},
       localStorage:{getItem:key=>data.get(key),setItem:(key,value)=>data.set(key,value)},
       fetch:async(path,options)=>{calls.push({path,options});return new Response('Static host has no API',{status:404});}});
     const {measurement}=await import(`../dist/product-feedback.js?test=${Date.now()}`);

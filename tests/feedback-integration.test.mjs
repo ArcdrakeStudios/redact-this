@@ -30,8 +30,8 @@ test('actual product adapter mounts without submission; language preserves a fai
     const {measurement}=await import(`../dist/product-feedback.js?test=${Date.now()}`);
     const container=nodes.get('measurement-feedback'), children=all(container);
     assert.equal(calls.length,0);
-    assert.equal(nodes.get('feedback-local').hidden,false);
-    assert.deepEqual(container.querySelectorAll('a').map(a=>a.href),['https://tools.arcdrake.com/de/privacy/','https://arcdrake.com/de/contact/']);
+    assert.equal(nodes.get('feedback-local').hidden,true);
+    assert.deepEqual(container.querySelectorAll('a').slice(0,2).map(a=>a.href),['https://tools.arcdrake.com/de/privacy/','https://arcdrake.com/de/contact/']);
     children.find(el=>el.textContent===NOTICES.en.open).listeners.click();
     assert.equal(calls.length,0);
     const message=children.find(el=>el.tag==='textarea'),category=children.find(el=>el.tag==='select');
@@ -41,7 +41,7 @@ test('actual product adapter mounts without submission; language preserves a fai
     const form=children.find(el=>el.tag==='form');
     await form.listeners.submit({preventDefault(){}});
     assert.equal(calls.length,1);assert.equal(calls[0].path,'/api/feedback');
-    assert.deepEqual(JSON.parse(calls[0].options.body),{product:'redact',category:'usability',message:'Synthetic draft'});
+    assert.deepEqual(JSON.parse(calls[0].options.body),{product:'redact',category:'usability',message:'Synthetic draft',noticeVersion:'2026-10-27-mail-v1'});
     assert.equal(message.value,'Synthetic draft');
     assert(children.some(el=>el.textContent===NOTICES.en.unavailable));
     assert.equal(data.size,0,'feedback is never stored in localStorage');

@@ -4,3 +4,6 @@
 *.webp binary
 *.pdf binary
 dist/vendor/** -whitespace
+# Keep reviewed shared browser sources byte-identical across platforms.
+dist/shared/measurement-contract.mjs text eol=lf
+dist/shared/measurement-feedback-client.mjs text eol=lf

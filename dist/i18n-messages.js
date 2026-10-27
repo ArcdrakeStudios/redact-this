@@ -1,6 +1,7 @@
 // Local UI translation only. Image pixels, filenames and settings are never translated.
 import {NOTICES} from './shared/measurement-feedback-client.mjs';
 const dictionary = {
+  "Feedback service may be unavailable on this page.": "Der Feedbackdienst ist auf dieser Seite möglicherweise nicht verfügbar.",
   'Export PNG': 'PNG exportieren',
   'Download PNG file': 'PNG-Datei herunterladen',
   'Prepare PNG to save': 'PNG zum Speichern vorbereiten',
@@ -9,7 +10,7 @@ const dictionary = {
   "Draw solid masks over names, faces, and sensitive details. Download a flattened PNG or PDF made from new pixels.": "Zeichne deckende Masken über Namen, Gesichter und sensible Details. Lade ein PNG oder PDF aus neuen Pixeln mit fest eingerechneten Masken herunter.",
   "Try a synthetic sample": "Erfundenes Beispiel testen",
   "Your file stays in this browser. No file upload or account. The sample uses invented details.": "Deine Datei bleibt in diesem Browser. Ohne Datei-Upload oder Konto. Das Beispiel enthält erfundene Angaben.",
-  "Feedback and optional usage counts": "Feedback und optionale Nutzungszählung",
+  "Feedback": "Feedback",
   "Delivery requires this host's feedback service. Only a saved receipt confirms acceptance; editing and downloads work without the service.": "Zum Senden wird der Feedbackdienst dieses Hosts benötigt. Erst ein Speicherbeleg bestätigt die Annahme; Bearbeiten und Herunterladen funktionieren ohne den Dienst.",
   "Local preview: this static app has no feedback backend. Sending cannot be confirmed unless you integrate the same-origin service. No feedback is saved in browser storage.": "Lokale Vorschau: Diese statische App enthält kein Feedback-Backend. Ohne Einbindung des Dienstes derselben Origin lässt sich das Senden nicht bestätigen. Feedback wird nicht im Browserspeicher gespeichert.",
   "Show page": "Seite anzeigen",

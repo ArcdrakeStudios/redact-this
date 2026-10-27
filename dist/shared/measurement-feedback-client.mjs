@@ -1,4 +1,4 @@
-import { PRODUCTS, EVENTS, CATEGORIES, WRITE_ERRORS, RECEIPT_UUID, validatePayload } from './measurement-contract.mjs';
+import { PRODUCTS, EVENTS, CATEGORIES, WRITE_ERRORS, RECEIPT_UUID, FEEDBACK_NOTICE_VERSION, validatePayload } from './measurement-contract.mjs';
 
 export const CHOICE_KEY = 'arcdrake.analytics.v1';
 // Share a failed opt-out across clients in this page using the same storage.
@@ -8,7 +8,7 @@ const pageDeniedStorage = new WeakSet();
 export const NOTICES = Object.freeze({
   en: {
     analytics: 'Optional usage counts are off until you allow them. With your permission we send only a product code and action type, stored as daily totals for the current UTC day and 89 previous days. These are action counts, not unique visitors. No visitor ID, visited URL, file content or IP address is saved in these totals. We try to save your choice in this browser on this site; a page-only choice is shown if browser storage is unavailable. You can turn counts off at any time; earlier totals cannot be linked to you or removed individually. Browser privacy signals are respected. Our hosting and abuse-protection provider still receives connection data, including your IP address, separately.',
-    feedback: 'Feedback is voluntary and sent to Arcdrake only when you press Send feedback. The product, category, message and optional reply email are accessible to authorized triage operators and agents until 30 days after sending. Expired feedback is hidden immediately; hourly cleanup deletes it from active storage, subject to platform failures. Do not include passwords, sensitive information, files or URLs containing private data. A reply is not guaranteed. Keep your receipt ID to request deletion through the contact link. Hosting and abuse protection process connection data separately; we do not store your IP with feedback. Provider recovery backups have separate retention. Authorized exports must be deleted by the feedback expiry time or earlier, including on a deletion request.',
+    feedback: 'Feedback is voluntary and independent of usage counts. Send your message and optional reply email to Arcdrake; please leave out sensitive information.',
     allow: 'Allow usage counts', deny: 'Turn usage counts off', open: 'Give feedback',
     send: 'Send feedback', message: 'Message (1–2000 characters)', email: 'Reply email (optional)',
     category: 'Category', bug: 'Problem', idea: 'Idea', usability: 'Ease of use', other: 'Other',
@@ -22,7 +22,7 @@ export const NOTICES = Object.freeze({
   },
   de: {
     analytics: 'Optionale Nutzungszählungen sind aus, bis du sie erlaubst. Mit deiner Zustimmung senden wir nur Produktcode und Aktionsart; gespeichert werden Tagessummen für den aktuellen UTC-Tag und 89 vorherige Tage. Das sind Aktionszahlen, keine Anzahl einzelner Besucher. Keine Besucherkennung, besuchte URL, Dateiinhalte oder IP-Adresse wird in diesen Summen gespeichert. Wir versuchen, deine Auswahl in diesem Browser auf dieser Website zu speichern; bei nicht verfügbarem Browserspeicher wird die nur für diese Seite geltende Auswahl angezeigt. Du kannst die Zählung jederzeit ausschalten; frühere Summen lassen sich dir nicht zuordnen oder einzeln löschen. Datenschutzsignale des Browsers werden beachtet. Unser Anbieter für Hosting und Missbrauchsschutz erhält weiterhin gesondert Verbindungsdaten einschließlich deiner IP-Adresse.',
-    feedback: 'Feedback ist freiwillig und wird erst mit „Feedback senden“ an Arcdrake übertragen. Produkt, Kategorie, Nachricht und optionale Antwortadresse sind für berechtigte Bearbeitende und Agenten bis 30 Tage nach dem Senden zugänglich. Abgelaufenes Feedback ist sofort unsichtbar; eine stündliche Bereinigung löscht es aus dem aktiven Speicher, vorbehaltlich Plattformfehlern. Bitte keine Passwörter, sensiblen Angaben, Dateien oder URLs mit privaten Daten senden. Eine Antwort ist nicht garantiert. Bewahre die Beleg-ID für eine Löschanfrage über den Kontaktlink auf. Hosting und Missbrauchsschutz verarbeiten Verbindungsdaten gesondert; wir speichern deine IP nicht mit dem Feedback. Wiederherstellungskopien des Anbieters haben gesonderte Aufbewahrungsfristen. Berechtigte Exporte müssen spätestens zum Ablauf des Feedbacks oder früher gelöscht werden, auch auf Löschanfrage.',
+    feedback: 'Feedback ist freiwillig und unabhängig von Nutzungszählungen. Sende deine Nachricht und optionale Antwortadresse an Arcdrake; bitte ohne sensible Angaben.',
     allow: 'Nutzungszählung erlauben', deny: 'Nutzungszählung ausschalten', open: 'Feedback geben',
     send: 'Feedback senden', message: 'Nachricht (1–2000 Zeichen)', email: 'Antwortadresse (optional)',
     category: 'Kategorie', bug: 'Problem', idea: 'Idee', usability: 'Bedienbarkeit', other: 'Sonstiges',
@@ -34,6 +34,12 @@ export const NOTICES = Object.freeze({
     rate: 'Zu viele Anfragen. Dein Text bleibt im Formular. Bitte warte vor dem nächsten Sendeversuch.',
     capacity: 'Der Feedbackspeicher ist derzeit voll. Dein Text bleibt im Formular. Kontaktiere bei Bedarf Arcdrake.',
   },
+});
+
+// Full notice for privacy pages; the form uses the brief NOTICES.feedback line.
+export const FEEDBACK_PRIVACY = Object.freeze({
+  "en": "Feedback policy updated 27 October 2026. Forwarding applies only to new submissions after this update takes effect; earlier feedback keeps its original 30-day expiry and is not automatically forwarded. Feedback is sent to Arcdrake only when you submit it: product, category, message and optional reply email. It is independent of usage counts. Authorized operators and agents handle your message; a reply is not guaranteed. The website working copy is accessible for 30 days, then hidden and removed by hourly cleanup under normal operation; platform failures can delay physical deletion. Provider recovery backups have separate retention. Feedback is also queued for forwarding through Microsoft 365 to Arcdrake’s contact mailbox. A saved receipt confirms website storage and queueing, not inbox delivery or a human response. Mailbox correspondence is deleted when no longer needed, subject to statutory retention obligations or the establishment, exercise or defence of legal claims. Use the contact link with your receipt ID to request deletion. Hosting processes connection metadata separately; IP addresses are not stored with feedback. Please leave out sensitive information.",
+  "de": "Feedbackregelung vom 27. Oktober 2026. Die Weiterleitung gilt nur für neue Einsendungen nach Inkrafttreten dieser Änderung; früheres Feedback behält seine ursprüngliche 30-Tage-Frist und wird nicht automatisch weitergeleitet. Feedback wird erst mit ausdrücklichem Senden an Arcdrake übertragen: Produkt, Kategorie, Nachricht und optionale Antwortadresse. Es ist unabhängig von Nutzungszählungen. Berechtigte Bearbeitende und Agenten bearbeiten deine Nachricht; eine Antwort ist nicht garantiert. Die Website-Arbeitskopie ist 30 Tage zugänglich und wird danach ausgeblendet und im Normalbetrieb stündlich gelöscht; Plattformfehler können die tatsächliche Löschung verzögern. Wiederherstellungskopien des Anbieters haben gesonderte Fristen. Feedback wird außerdem zur Weiterleitung über Microsoft 365 an Arcdrakes Kontaktpostfach vorgemerkt. Eine Beleg-ID bestätigt Speicherung und Vormerkung auf der Website, nicht den Eingang im Postfach oder eine menschliche Antwort. E-Mail-Korrespondenz wird gelöscht, wenn sie nicht mehr benötigt wird, soweit keine gesetzlichen Aufbewahrungspflichten oder die Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen entgegenstehen. Für Löschanfragen nutze den Kontaktlink mit deiner Beleg-ID. Hosting verarbeitet Verbindungsdaten gesondert; IP-Adressen werden nicht mit Feedback gespeichert. Bitte keine sensiblen Angaben senden."
 });
 
 export function createMeasurementClient({ product, fetchImpl = globalThis.fetch,
@@ -112,7 +118,7 @@ export function createMeasurementClient({ product, fetchImpl = globalThis.fetch,
     },
     async sendFeedback(fields) {
       let data;
-      try { data = validatePayload('feedback', { ...fields, product }); }
+      try { data = validatePayload('feedback', { ...fields, product, noticeVersion: FEEDBACK_NOTICE_VERSION }); }
       catch { return { ok: false, error: 'invalid' }; }
       return send('feedback', data);
     },
@@ -121,7 +127,7 @@ export function createMeasurementClient({ product, fetchImpl = globalThis.fetch,
 
 // Optional framework-free UI. All content, including server results, uses textContent.
 // The host supplies a visible container and can style it through its own stylesheet.
-export function mountMeasurementFeedback(container, { product, language = 'en', links, consentWindow = true, ...options } = {}) {
+export function mountMeasurementFeedback(container, { product, language = 'en', links, consentWindow = true, feedbackOpen = false, ...options } = {}) {
   const client = createMeasurementClient({ product, ...options });
   const copy = NOTICES[language] ?? NOTICES.en;
   const doc = container.ownerDocument;
@@ -132,42 +138,24 @@ export function mountMeasurementFeedback(container, { product, language = 'en', 
     parent.append(el);
     return el;
   };
-  add(root, 'p', copy.analytics);
+  root.className = 'arcdrake-feedback';
   const toolProducts = ['tools', 'rehearsal', 'redact', 'shrink', 'unpack', 'maildns', 'sitecheck'];
   const host = product === 'company' ? 'https://arcdrake.com' : toolProducts.includes(product) ?
     'https://tools.arcdrake.com' : 'https://arcdrakestudios.com';
   const prefix = language === 'de' ? '/de' : '';
   const defaults = { privacy: `${host}${prefix}/privacy/`, contact:
     `${toolProducts.includes(product) ? 'https://arcdrake.com' : host}${prefix}/contact/` };
-  const navigation = add(root, 'p');
-  for (const name of ['privacy', 'contact']) {
-    const href = links?.[name] ?? defaults[name];
-    const url = new URL(href);
-    if (url.protocol !== 'https:' || url.username || url.password) throw new TypeError('HTTPS notice/contact link required');
-    add(navigation, 'a', copy[name]).href = url.href;
-    add(navigation, 'span', ' ');
-  }
-  const allow = add(root, 'button', copy.allow), deny = add(root, 'button', copy.deny);
-  allow.type = deny.type = 'button';
-  const choiceStatus = add(root, 'p');
-  choiceStatus.setAttribute('role', 'status');
   let consent;
-  const update = () => {
-    const current = client.choice();
-    choiceStatus.textContent = (current === 'blocked' ? copy.blocked : current === 'yes' ? copy.on : copy.off) +
-      (client.choicePersistence() === 'page' ? ` ${copy.pageOnly}` : '');
-    consent?.refresh();
-  };
+  const update = () => { consent?.refresh(); };
   const view = doc.defaultView;
   const storageChanged = event => { if (event.key === CHOICE_KEY || event.key === null) update(); };
   view?.addEventListener('storage', storageChanged);
-  allow.addEventListener('click', () => { client.setChoice('yes'); update(); });
-  deny.addEventListener('click', () => { client.setChoice('no'); update(); });
   const open = add(root, 'button', copy.open);
   open.type = 'button';
-  open.setAttribute('aria-expanded', 'false');
+  open.setAttribute('aria-expanded', String(feedbackOpen));
+  open.hidden = feedbackOpen;
   const form = add(root, 'form');
-  form.hidden = true;
+  form.hidden = !feedbackOpen;
   add(form, 'p', copy.feedback);
   const category = add(add(form, 'label', copy.category), 'select');
   category.name = 'category';
@@ -176,6 +164,11 @@ export function mountMeasurementFeedback(container, { product, language = 'en', 
   message.name = 'message'; message.required = true; message.maxLength = 2000;
   const email = add(add(form, 'label', copy.email), 'input');
   email.name = 'replyTo'; email.type = 'email'; email.maxLength = 254;
+  for (const field of [category, message, email]) {
+    Object.assign(field.style ??= {}, { display: 'block', boxSizing: 'border-box', width: '100%', maxWidth: '36rem',
+      minHeight: '44px', margin: '.35rem 0 1rem', padding: '.6rem', border: '1px solid currentColor', borderRadius: '.4rem', font: 'inherit', color: 'inherit', background: 'transparent' });
+  }
+  message.rows = 4;
   const submit = add(form, 'button', copy.send);
   submit.type = 'submit';
   const status = add(form, 'p');
@@ -197,23 +190,39 @@ export function mountMeasurementFeedback(container, { product, language = 'en', 
       if (result.ok) form.reset();
     } finally { submit.disabled = false; }
   });
+  const navigation = add(root, 'p');
+  for (const name of ['privacy', 'contact']) {
+    const url = new URL(links?.[name] ?? defaults[name]);
+    if (url.protocol !== 'https:' || url.username || url.password) throw new TypeError('HTTPS notice/contact link required');
+    add(navigation, 'a', copy[name]).href = url.href;
+    add(navigation, 'span', ' · ');
+  }
   container.append(root);
   if (consentWindow) consent = mountConsentWindow(root, client, {
-    language, privacyURL: links?.privacy ?? defaults.privacy, onChange: update,
+    language, theme: ['company', 'tiny'].includes(product) ? 'light' : 'dark', privacyURL: links?.privacy ?? defaults.privacy, onChange: update,
   });
   update();
   return { client, refreshChoice: update, destroy: () => { consent?.destroy(); view?.removeEventListener('storage', storageChanged); root.remove(); } };
 }
 
 let consentSerial = 0;
-// A native modal supplies focus containment and escape handling. Older browsers
-// retain the explicit inline controls; dismissal never grants permission.
+// A native modal contains focus; older browsers retain a compact inline panel.
+// Dismissal never grants permission.
 export function mountConsentWindow(container, client, { language = 'en', privacyURL,
-  onChange = () => {}, autoOpen = true } = {}) {
+  onChange = () => {}, autoOpen = true, theme = 'dark' } = {}) {
   const doc = container.ownerDocument;
   if (!doc?.createElement) return { refresh() {}, destroy() {} };
-  const dialog = doc.createElement('dialog');
-  if (!doc.body?.append || typeof dialog.showModal !== 'function') return { refresh() {}, destroy() {} };
+  const candidate = doc.createElement('dialog');
+  const native = Boolean(doc.body?.append && typeof candidate.showModal === 'function');
+  const dialog = native ? candidate : doc.createElement('section');
+  dialog.className = 'arcdrake-consent';
+  dialog.hidden = !native;
+  const light = theme === 'light';
+  const palette = light ? { ink: '#252238', surface: '#fffcf7', button: '#f1eaf9', border: '#746287', link: '#55327e' }
+    : { ink: '#f5f0ff', surface: '#201a32', button: '#332744', border: '#a58cca', link: '#ddcbff' };
+  const styles = doc.createElement('style');
+  styles.textContent = '.arcdrake-consent::backdrop{background:rgb(6 5 18 / .72);backdrop-filter:blur(5px)}.arcdrake-consent button:focus-visible,.arcdrake-consent a:focus-visible,.arcdrake-consent summary:focus-visible{outline:3px solid #ab82e0;outline-offset:3px}.arcdrake-consent button:disabled{opacity:.55;cursor:default}.arcdrake-consent summary{cursor:pointer}.arcdrake-consent p:empty{display:none}';
+  doc.head?.append(styles);
   const privacy = new URL(privacyURL);
   if (privacy.protocol !== 'https:' || privacy.username || privacy.password) throw TypeError('HTTPS privacy link required');
   let lang = language === 'de' ? 'de' : 'en';
@@ -221,50 +230,51 @@ export function mountConsentWindow(container, client, { language = 'en', privacy
   const reopen = add(container, 'button'); reopen.type = 'button';
   const heading = add(dialog, 'h2'); heading.id = `arcdrake-consent-${++consentSerial}`;
   dialog.setAttribute('aria-labelledby', heading.id);
-  Object.assign(dialog.style, { boxSizing: 'border-box', width: 'min(36rem, calc(100vw - 2rem))',
+  Object.assign(dialog.style ??= {}, { boxSizing: 'border-box', position: native ? 'fixed' : 'relative', inset: native ? '0' : 'auto', margin: native ? 'auto' : '1rem 0', width: 'min(32rem, calc(100vw - 2rem))', font: '400 1rem/1.5 system-ui, sans-serif',
     maxHeight: 'calc(100dvh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
-    overflowY: 'auto', padding: '1.25rem', borderRadius: '1rem', color: '#18202a', background: '#fff', border: '2px solid #52606d' });
+    overflowY: 'auto', padding: '1.25rem', borderRadius: '1rem', color: palette.ink, background: palette.surface, border: `1px solid ${palette.border}`, boxShadow: '0 24px 90px #09061399', colorScheme: light ? 'light' : 'dark' });
   const purpose = add(dialog, 'p'), details = add(dialog, 'details'), summary = add(details, 'summary');
-  heading.style.margin = '0 0 .75rem';
-  Object.assign(purpose.style, { margin: '.75rem 0', lineHeight: '1.5' });
-  details.style.margin = '.75rem 0';
-  const description = add(details, 'p'), privacyLink = add(dialog, 'a'); privacyLink.href = privacy.href;
-  const controls = add(dialog, 'div'); Object.assign(controls.style, { display: 'flex', flexWrap: 'wrap', gap: '.75rem', marginTop: '1rem' });
+  (heading.style ??= {}).margin = '0 0 .75rem';
+  Object.assign(purpose.style ??= {}, { margin: '.75rem 0', lineHeight: '1.5' });
+  (details.style ??= {}).margin = '.75rem 0';
+  const description = add(details, 'p'), privacyLink = add(dialog, 'a'); privacyLink.href = privacy.href; (privacyLink.style ??= {}).color = palette.link;
+  const controls = add(dialog, 'div'); Object.assign(controls.style ??= {}, { display: 'flex', flexWrap: 'wrap', gap: '.75rem', marginTop: '1rem' });
   const deny = add(controls, 'button'), allow = add(controls, 'button');
-  for (const button of [deny, allow, reopen]) { button.type = 'button'; Object.assign(button.style, {
-    minHeight: '44px', padding: '.65rem 1rem', border: '1px solid #52606d', borderRadius: '.4rem',
-    background: '#fff', color: '#18202a', font: 'inherit', cursor: 'pointer' }); }
+  for (const button of [deny, allow, reopen]) { button.type = 'button'; Object.assign(button.style ??= {}, {
+    minHeight: '44px', padding: '.65rem 1rem', border: `1px solid ${palette.border}`, borderRadius: '.4rem',
+    background: palette.button, color: palette.ink, font: 'inherit', cursor: 'pointer', flex: button === reopen ? 'initial' : '1 1 12rem' }); }
   const status = add(dialog, 'p'); status.setAttribute('role', 'status');
   const refresh = () => {
     const de = lang === 'de', copy = NOTICES[lang];
     dialog.lang = lang;
     heading.textContent = reopen.textContent = de ? 'Datenschutzeinstellungen' : 'Privacy choices';
     purpose.textContent = de
-      ? 'Darf Arcdrake optionale Nutzungsaktionen zählen, um zu verstehen, welche Werkzeuge und Spiele genutzt werden? Ohne Zustimmung bleibt die Zählung aus. Die Website funktioniert in beiden Fällen. Du kannst deine Auswahl jederzeit über „Datenschutzeinstellungen“ ändern.'
-      : 'May Arcdrake count optional usage actions to understand which tools and games are used? Counts stay off without permission. The site works either way. You can change your choice at any time through “Privacy choices”.';
+      ? 'Arcdrake (Michael Eigner-Dietl) möchte mit deiner Einwilligung Nutzungsaktionen zählen, um Spiele und Werkzeuge zu verbessern. Ohne Zustimmung bleibt die Zählung aus. Website und Feedback funktionieren in beiden Fällen. Du kannst jederzeit über „Datenschutzeinstellungen“ widerrufen.'
+      : 'Arcdrake (Michael Eigner-Dietl) would like your consent to count usage actions to improve games and tools. Counts stay off without permission. The site and feedback work either way. Withdraw at any time through “Privacy choices”.';
     summary.textContent = de ? 'Was wird verarbeitet und gespeichert?' : 'What is processed and stored?';
     description.textContent = copy.analytics;
     privacyLink.textContent = copy.privacy;
     if (['/privacy/', '/de/privacy/'].includes(privacy.pathname)) {
       const localized = new URL(privacy); localized.pathname = de ? '/de/privacy/' : '/privacy/'; privacyLink.href = localized.href;
     }
-    deny.textContent = de ? 'Ohne Nutzungszählung fortfahren' : 'Continue without usage counts';
+    deny.textContent = de ? 'Ohne Nutzungszählung' : 'No usage counts';
     allow.textContent = copy.allow;
     allow.disabled = client.choice() === 'blocked';
     status.textContent = (client.choice() === 'blocked' ? copy.blocked : client.choice() === 'yes' ? copy.on : copy.off) +
       (client.choicePersistence() === 'page' ? ` ${copy.pageOnly}` : '');
   };
-  const choose = value => { client.setChoice(value); refresh(); onChange(); dialog.close(); };
+  const show = () => { if (native) { if (!dialog.open) dialog.showModal(); } else dialog.hidden = false; };
+  const choose = value => { client.setChoice(value); refresh(); onChange(); if (native) dialog.close(); else dialog.hidden = true; };
   deny.addEventListener('click', () => choose('no'));
   allow.addEventListener('click', () => choose('yes'));
   dialog.addEventListener('cancel', event => { event.preventDefault(); choose('no'); });
-  reopen.addEventListener('click', () => { refresh(); if (!dialog.open) dialog.showModal(); });
+  reopen.addEventListener('click', () => { refresh(); show(); });
   const languageChanged = event => { if (['en', 'de'].includes(event.detail?.language)) { lang = event.detail.language; refresh(); } };
   doc.defaultView?.addEventListener('arcdrake-language-change', languageChanged);
   const stored = () => refresh(); doc.defaultView?.addEventListener('storage', stored);
-  doc.body.append(dialog); refresh();
-  if (autoOpen && client.choice() === 'unset') dialog.showModal();
-  return { refresh, destroy() { if (dialog.open) dialog.close(); dialog.remove(); reopen.remove();
+  (native ? doc.body : container).append(dialog); refresh();
+  if (autoOpen && client.choice() === 'unset') show();
+  return { refresh, destroy() { if (native && dialog.open) dialog.close(); dialog.remove(); reopen.remove(); styles.remove();
     doc.defaultView?.removeEventListener('arcdrake-language-change', languageChanged); doc.defaultView?.removeEventListener('storage', stored); } };
 }
 

@@ -6,6 +6,7 @@ export const PRODUCTS = Object.freeze([
 export const EVENTS = Object.freeze([
   'page_view', 'play_start', 'play_complete', 'feedback_open', 'tool_start', 'tool_complete',
 ]);
+export const FEEDBACK_NOTICE_VERSION = '2026-10-27-mail-v1';
 export const CATEGORIES = Object.freeze(['bug', 'idea', 'usability', 'other']);
 export const POLICY = Object.freeze({ feedbackDays: 30, eventDays: 90, maxFeedback: 1000, maxPage: 100 });
 export const WRITE_ERRORS = Object.freeze({
@@ -20,7 +21,7 @@ export class ApiError extends Error {
 
 export function validatePayload(kind, data) {
   if (!data || typeof data !== 'object' || Array.isArray(data)) throw new ApiError(400, 'invalid');
-  const allowed = kind === 'events' ? ['product', 'event'] : ['product', 'category', 'message', 'replyTo'];
+  const allowed = kind === 'events' ? ['product', 'event'] : ['product', 'category', 'message', 'replyTo', 'noticeVersion'];
   if (Object.keys(data).some(key => !allowed.includes(key)) || !PRODUCTS.includes(data.product))
     throw new ApiError(400, 'invalid');
   if (kind === 'events') {
@@ -33,6 +34,10 @@ export function validatePayload(kind, data) {
   if (!message || message.length > 2000 || /[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/u.test(message))
     throw new ApiError(400, 'invalid');
   const result = { product: data.product, category: data.category, message };
+  if (data.noticeVersion !== undefined) {
+    if (data.noticeVersion !== FEEDBACK_NOTICE_VERSION) throw new ApiError(400, 'invalid');
+    result.noticeVersion = data.noticeVersion;
+  }
   if (data.replyTo !== undefined) {
     if (typeof data.replyTo !== 'string') throw new ApiError(400, 'invalid');
     const email = data.replyTo.trim();

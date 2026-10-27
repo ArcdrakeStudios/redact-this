@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { CHOICE_KEY, createMeasurementClient, mountMeasurementFeedback, NOTICES, runMeasuredAction } from '../dist/shared/measurement-feedback-client.mjs';
+import { CHOICE_KEY, createMeasurementClient, mountMeasurementFeedback, NOTICES, FEEDBACK_PRIVACY, runMeasuredAction } from '../dist/shared/measurement-feedback-client.mjs';
 const receipt = '12345678-1234-4567-89ab-123456789abc';
 
 function setup(overrides = {}) {
@@ -59,7 +59,7 @@ test('feedback needs explicit send, works with analytics off, validates and neve
   const valid = { category: 'idea', message: 'A thought' };
   assert.equal((await client.sendFeedback(valid)).ok, true);
   assert.equal(calls[0].path, '/api/feedback');
-  assert.deepEqual(JSON.parse(calls[0].options.body), { product: 'company', ...valid });
+  assert.deepEqual(JSON.parse(calls[0].options.body), { product: 'company', ...valid, noticeVersion: '2026-10-27-mail-v1' });
   assert.equal((await client.sendFeedback({ ...valid, metadata: 'extra' })).ok, false);
   assert.equal(calls.length, 1);
   let attempts = 0;
@@ -214,6 +214,8 @@ test('localized widget links existing host privacy/contact routes and preserves 
     assert.equal(message.value, '<script>untrusted text</script>');
     assert.ok(nodes.some(node => node.textContent === NOTICES[language].unavailable));
     assert.match(NOTICES[language].feedback, /Arcdrake/);
-    assert.match(NOTICES[language].feedback, /platform failures|Plattformfehlern/);
+    assert.ok(NOTICES[language].feedback.length < 240);
+    assert.match(FEEDBACK_PRIVACY[language], /platform failures|Plattformfehler/);
+    assert.match(FEEDBACK_PRIVACY[language], /Microsoft 365/);
   }
 });

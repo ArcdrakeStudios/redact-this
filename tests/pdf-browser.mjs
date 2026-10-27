@@ -28,9 +28,9 @@ let server, browser;
 async function ready(page) {
   await page.waitForFunction(() => {
     if(!document.querySelector('#cancel').hidden) return false;
-    if(document.querySelector('#loaded').hidden || document.querySelector('#canvas').hidden) {
-      throw new Error(`Editor not ready: ${document.querySelector('#status').textContent}`);
-    }
+    // Export restores its editing raster asynchronously after the download starts.
+    // Keep waiting; an actual restoration failure still fails this bounded wait.
+    if(document.querySelector('#loaded').hidden || document.querySelector('#canvas').hidden) return false;
     return true;
   });
 }

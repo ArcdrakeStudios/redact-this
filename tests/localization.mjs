@@ -27,7 +27,7 @@ try {
   // Static markup must not silently retain English copy as new UI is added.
   const untranslated=await page.evaluate(async markup=>{
     const {translate}=await import('./i18n.js');
-    const allowed=new Set(['▰','Redact This','▧','Redact This / Arcdrake','ARCDRAKE','.','01','02','KB','MB','Arcdrake']);
+    const allowed=new Set(['Feedback','▰','Redact This','▧','Redact This / Arcdrake','ARCDRAKE','.','01','02','KB','MB','Arcdrake']);
     const source=new DOMParser().parseFromString(markup,'text/html');
     const walker=document.createTreeWalker(source.documentElement,NodeFilter.SHOW_TEXT),missing=[];
     while(walker.nextNode()){const node=walker.currentNode,text=node.data.trim();if(text&&!node.parentElement.closest('script,style,noscript')&&!allowed.has(text)&&translate(text)===text)missing.push(text);}

@@ -13,7 +13,7 @@ try {
   const page = await context.newPage();
   const errors=[]; page.on('pageerror',error=>errors.push(error.message));
   await page.goto(url+'/?lang=de');
-  await page.getByRole('dialog').getByRole('button', {name:/Continue without usage counts|Ohne Nutzungszählung fortfahren/}).click();
+  await page.getByRole('dialog').getByRole('button', {name:/No usage counts|Ohne Nutzungszählung/}).click();
 
   await page.waitForFunction(()=>document.documentElement.lang==='de');
   assert.match(await page.locator('h1').innerText(), shrink ? /Verkleinere/ : /Verdecke/);
@@ -27,7 +27,7 @@ try {
   // Static markup must not silently retain English copy as new UI is added.
   const untranslated=await page.evaluate(async markup=>{
     const {translate}=await import('./i18n.js');
-    const allowed=new Set(['▰','Redact This','▧','Redact This / Arcdrake','ARCDRAKE','.','01','02','KB','MB','Arcdrake']);
+    const allowed=new Set(['Feedback','▰','Redact This','▧','Redact This / Arcdrake','ARCDRAKE','.','01','02','KB','MB','Arcdrake']);
     const source=new DOMParser().parseFromString(markup,'text/html');
     const walker=document.createTreeWalker(source.documentElement,NodeFilter.SHOW_TEXT),missing=[];
     while(walker.nextNode()){const node=walker.currentNode,text=node.data.trim();if(text&&!node.parentElement.closest('script,style,noscript')&&!allowed.has(text)&&translate(text)===text)missing.push(text);}

@@ -86,3 +86,13 @@ bounds, not guarantees of device memory capacity. Before release, complete the
 inspection, all-page visual comparison, EN/DE, cancellation, packaged CSP/resource
 requests and existing image regressions. Unit and packaging checks alone do not
 establish PDF browser readiness; that acceptance is currently pending.
+
+
+The consent window's immutable shared CSS has a narrowly pinned SHA-256 permission
+in both the HTML meta policy and `scripts/security.mjs` HTTP policy:
+`sha256-VHXTEYUc0+/a/3/pxtfczPbGydBF1J/t2RF/LB9heIo=`. Package tests hash the
+canonical literal and verify the two policies agree. This permits that reviewed
+style block, alongside same-origin stylesheets, without allowing arbitrary inline
+CSS. Hosts that send an additional CSP must grant the same exact hash in every
+intersecting `style-src` policy. Preserve all other directives; do not substitute
+`unsafe-inline`. A shared-style change requires an intentional hash/policy review.

@@ -15,7 +15,7 @@ test('all image and PDF validation errors have German translations', async () =>
 
 test('static file/PDF UI and dynamic progress/review controls translate without changing source text', async () => {
   const html=await readFile('dist/index.html','utf8');
-  const allowed=new Set(['▰','Redact This','▧','Redact This / Arcdrake']);
+  const allowed=new Set(['Feedback','▰','Redact This','▧','Redact This / Arcdrake']);
   for(const [,part] of html.matchAll(/>([^<>]+)</g)) {
     const text=part.trim();
     if(!text || allowed.has(text)) continue;

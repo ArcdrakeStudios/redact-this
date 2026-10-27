@@ -6,7 +6,7 @@ import {join, posix} from 'node:path';
 import {createHash} from 'node:crypto';
 import {packageRelease} from '../scripts/package.mjs';
 import {contentType} from '../scripts/mime.mjs';
-import {securityHeaders} from '../scripts/security.mjs';
+import {securityHeaders, CONSENT_STYLE_HASH} from '../scripts/security.mjs';
 
 test('clean and repeat packages contain the complete local PDF module graph, resources, notices and valid hashes', async () => {
   const output=await mkdtemp(join(tmpdir(),'redact-package-'));
@@ -62,4 +62,17 @@ test('document and worker response policy includes the document restrictions and
   assert.equal(securityHeaders['Referrer-Policy'],'no-referrer');
   const server=await readFile('scripts/serve.mjs','utf8');
   assert.match(server,/res\.writeHead\(200,[\s\S]*?\.\.\.securityHeaders/);
+});
+
+
+test('CSP admits only the exact canonical consent style block alongside self styles', async () => {
+  const client = await readFile('dist/shared/measurement-feedback-client.mjs', 'utf8');
+  const blocks = [...client.matchAll(/styles\.textContent = '([^']+)';/g)];
+  assert.equal(blocks.length, 1, 'consent CSS must remain one immutable literal');
+  assert.equal('sha256-' + createHash('sha256').update(blocks[0][1]).digest('base64'), CONSENT_STYLE_HASH);
+  const html = await readFile('dist/index.html', 'utf8');
+  const meta = html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)[1];
+  assert.deepEqual(meta.match(/(?:^|; )style-src ([^;]+)/)[1].split(' '), ["'self'", "'" + CONSENT_STYLE_HASH + "'"]);
+  assert.equal(securityHeaders['Content-Security-Policy'], meta + "; frame-ancestors 'none'");
+  assert.doesNotMatch(meta, /unsafe-inline|unsafe-eval/);
 });

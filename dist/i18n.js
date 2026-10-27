@@ -71,5 +71,7 @@ window.addEventListener('storage', event => { if (event.key === key) setLanguage
 document.addEventListener('invalid', event => { event.target.setCustomValidity(language === 'de' ? 'Bitte gib einen gültigen Wert innerhalb der angegebenen Grenzen ein.' : 'Enter a valid value within the indicated limits.'); }, true);
 document.addEventListener('input', event => event.target.setCustomValidity?.(''));
 localize();
+// Notify shared controls after all imported modules have mounted their listeners.
+queueMicrotask(() => window.dispatchEvent(new CustomEvent('arcdrake-language-change', {detail:{language}})));
 if (['de','en'].includes(query)) { try { localStorage.setItem(key, language); } catch {} }
 new MutationObserver(localize).observe(document.documentElement, {subtree:true, childList:true, characterData:true, attributes:true, attributeFilter:['aria-label','alt','content']});

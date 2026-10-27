@@ -18,7 +18,7 @@ try {
   assert.equal(await page.locator('#language').inputValue(),'de');
   assert.equal(await page.evaluate(()=>localStorage.getItem('arcdrake-tools-language')),'de');
   // Every explicit core validation/encoding failure has a German translation.
-  const sources=await Promise.all((shrink?['image']:['image','regions']).map(name=>readFile(`dist/${name}.js`,'utf8')));
+  const sources=await Promise.all((shrink?['image']:['image','regions','pdf','pdf-geometry','pdf-resources']).map(name=>readFile(`dist/${name}.js`,'utf8')));
   const messages=sources.flatMap(source=>[...source.matchAll(/(?:new Error|throw Error)\('([^']+)'\)/g)].map(match=>match[1]));
   const missing=await page.evaluate(async messages=>{const {translate}=await import('./i18n.js');return messages.filter(message=>translate(message)===message);},messages);
   assert.deepEqual(missing,[]);

@@ -1,10 +1,11 @@
 # Redact This
 
-**Cover private details in an image before you share it.**
+**Cover private details in an image or PDF before you share it.**
 
-Choose a JPG, PNG or WebP, draw solid black masks over the details you want to hide,
-then download a flattened PNG at the original resolution. Your image is processed
-in your browser and is not uploaded.
+Choose a JPG, PNG, WebP or PDF, draw solid black masks over the details you want
+to hide, then download a new PNG or rasterized PDF. Processing stays in your
+browser; your file is not uploaded. PDF browser acceptance is still pending; see
+[the acceptance plan](docs/PDF_ACCEPTANCE.md) before preparing a release.
 
 **[Open Redact This](https://tools.arcdrake.com/redact/)** ·
 [Download source](https://github.com/ArcdrakeStudios/redact-this/archive/refs/heads/main.zip) · [All Arcdrake Tools](https://tools.arcdrake.com/) ·
@@ -16,11 +17,13 @@ in your browser and is not uploaded.
 
 ## How to use it
 
-1. Choose a still image from your device.
+1. Choose a still image or PDF from your device, or try the built-in synthetic sample.
 2. Drag over a name, face, number or other detail to cover it. You can also enter
    exact pixel coordinates and dimensions for a mask.
-3. Preview the result and download the PNG.
-4. Open the downloaded file and check every detail before sharing it.
+3. For PDFs, visit every page and mark it reviewed. Adding or removing a mask
+   clears that page's review. Zoom changes the view, not the mask coordinates.
+4. Preview and download the PNG or PDF. Open the downloaded file and check every
+   detail on every page before sharing it.
 
 Masks replace covered pixels with opaque black. There is no automatic detection:
 you decide what to cover. Original embedded metadata is not copied to the new
@@ -30,33 +33,77 @@ contains information you do not want to share. Keep the original file private.
 The interface is available in **English and German**. Use the language selector,
 or open [English](https://tools.arcdrake.com/redact/?lang=en) or
 [Deutsch](https://tools.arcdrake.com/redact/?lang=de) directly. Switching languages
-preserves the image and masks.
+preserves the selected image/PDF, page and masks.
 
 ## Privacy and supported files
 
-Image processing takes place in the current browser tab. The app has no account,
-image upload, analytics or saved editing session. Only your language preference is
-saved in browser storage. Refreshing or closing the tab clears the editing session;
+File processing takes place in the current browser tab. The app has no account,
+file upload or saved editing session. Optional usage counts default off; after
+permission, only the product code and action type go to the host's same-origin
+service as daily action totals. They are not unique visitor counts. GPC and DNT
+override permission, and you can turn counts off at any time. File names, contents,
+URLs and editing details never enter these counts. The host/provider still sees
+connection metadata separately.
+
+The **Give feedback** control offers problem, idea, ease-of-use and other categories.
+Only **Send feedback** submits your message and optional reply email to Arcdrake;
+opening the form or editing a file does not submit feedback. The visible notice
+explains active storage, expiry, backups, exports and receipt-based deletion.
+No message is saved in browser storage. A failed or unavailable backend preserves
+your form text and cannot confirm receipt; there is no automatic retry. The static
+local app includes no feedback backend, and editing/export do not depend on one.
+See [service integration](docs/MEASUREMENT_FEEDBACK.md).
+
+Your language and yes/no usage-count preference are saved in browser storage.
+Refreshing or closing the tab clears the editing session;
 files you download remain on your device. The hosting service receives ordinary
 page requests; see the [Arcdrake Tools privacy notice](https://tools.arcdrake.com/privacy/).
 
 - Still JPG, PNG and WebP inputs; PNG output.
 - Up to 40 MB, 40 million decoded pixels and 16,384 pixels per side.
 - Up to 200 masks per image.
-- Animated PNG/WebP and SVG are rejected. PDFs are unsupported.
+- Animated PNG/WebP and SVG are rejected.
+- PDF input: up to 40,000,000 bytes and 30 pages; fixed 150 DPI, at most
+  8,192 pixels per side, 16 million pixels per page and 100 million pixels total.
+- Up to 200 masks per PDF page. Encoded page images are limited to 80,000,000
+  bytes total; the saved PDF is limited to 128,000,000 bytes.
+- Local PDF font and CMap resources are cached for the open document: up to
+  4,000,000 bytes each, 16,000,000 bytes total and 256 resources. Missing resources
+  stop rendering and export; reconnect and choose the file again to retry.
 
-Large images may fail to load or export on devices with limited available memory,
+Every PDF page is rendered onto opaque white, including pages without masks.
+The fresh output contains only newly encoded page pixels with masks burned in;
+source objects, metadata, attachments, actions and text layers are not copied.
+There is no OCR or preservation of native text or vectors. Text is no longer
+selectable or searchable; links, bookmarks, accessibility tags and signatures do
+not survive. Source rotation and the visible crop are baked into the pixels;
+the displayed physical page size is preserved. Output may be larger and small
+text or fine lines may lose clarity.
+
+Password-protected and other encrypted PDFs (including empty passwords), forms,
+XFA, signatures, portfolios and optional content layers are rejected. Ordinary
+annotation appearances use PDF.js display rendering; interactive annotations,
+popup contents and links are not preserved. Strict PDF header/trailer validation
+can reject files that another viewer repairs. Not every PDF encoding or appearance
+is supported; compare the rendered pages with your original and inspect the download.
+
+Large files may fail to load or export on devices with limited available memory,
 even within these limits. File validation cannot guarantee support for every encoding.
-Browser checks cover Chromium and narrow layouts at 390 and 320 CSS pixels. Safari,
+Existing image browser checks cover Chromium and narrow layouts at 390 and 320 CSS pixels. PDF rendering,
+downloads, CSP, cancellation and memory use still require browser acceptance. Safari,
 Firefox, physical mobile devices and screen-reader compatibility have not been
 verified.
+PDF mode requires module workers, `Promise.withResolvers`,
+`Map.prototype.getOrInsertComputed` and `Uint8Array.prototype.toHex`. Browsers
+missing these APIs receive an update-browser message; image mode remains available.
 
 ## Run locally
 
 Download and extract the source ZIP, or clone this repository. Open a terminal
 in the resulting folder.
 
-Requires Node.js 24 or newer. No package installation or build step is needed:
+Requires Node.js 24 or newer. Vendored PDF assets are included; no package
+installation or build step is needed to serve the app:
 
 ```sh
 node scripts/serve.mjs
@@ -75,6 +122,7 @@ npm ci
 npx playwright install chromium
 npm test
 npm run test:ci
+npm run test:pdf:browser
 npm run test:i18n
 npm run package:release
 ```

@@ -15,7 +15,7 @@ export const NOTICES = Object.freeze({
     on: 'Usage counts are on.', off: 'Usage counts are off.', blocked: 'Usage counts are off because of your browser privacy signal.',
     pageOnly: 'This choice applies only on this page because browser storage is unavailable. If an earlier permission could not be cleared, it may still apply after reload or in another tab. Check the choice there too.',
     privacy: 'Privacy', contact: 'Contact Arcdrake',
-    sending: 'Sending…', sent: 'Feedback saved. Receipt ID: ', error: 'We could not confirm that feedback was saved. Check the fields; do not send repeatedly.',
+    sending: 'Sending…', sent: 'Feedback saved. Receipt ID: ', error: 'Feedback was not sent. Check the message (1–2000 characters) and reply email, then try again.',
     unavailable: 'Feedback service is unavailable or receipt could not be confirmed. Your text stays in this form. Do not resend automatically; contact Arcdrake if needed.',
     rate: 'Too many requests. Your text stays in this form. Please wait before sending again.',
     capacity: 'Feedback storage is currently full. Your text stays in this form. Contact Arcdrake if needed.',
@@ -29,8 +29,8 @@ export const NOTICES = Object.freeze({
     on: 'Nutzungszählung ist an.', off: 'Nutzungszählung ist aus.', blocked: 'Nutzungszählung ist wegen des Datenschutzsignals deines Browsers aus.',
     pageOnly: 'Diese Auswahl gilt nur auf dieser Seite, weil der Browserspeicher nicht verfügbar ist. Falls eine frühere Erlaubnis nicht gelöscht werden konnte, kann sie nach dem Neuladen oder in einem anderen Tab weiter gelten. Prüfe die Auswahl auch dort.',
     privacy: 'Datenschutz', contact: 'Arcdrake kontaktieren',
-    sending: 'Wird gesendet…', sent: 'Feedback gespeichert. Beleg-ID: ', error: 'Die Speicherung konnte nicht bestätigt werden. Prüfe die Felder; bitte nicht wiederholt senden.',
-    unavailable: 'Der Feedbackdienst ist nicht verfügbar oder der Empfang konnte nicht bestätigt werden. Dein Text bleibt im Formular. Bitte nicht automatisch erneut senden; kontaktiere bei Bedarf Arcdrake.',
+    sending: 'Wird gesendet…', sent: 'Feedback gespeichert. Beleg-ID: ', error: 'Feedback wurde nicht gesendet. Prüfe Nachricht (1–2000 Zeichen) und Antwortadresse und versuche es erneut.',
+    unavailable: 'Der Feedbackdienst ist nicht verfügbar oder der Beleg konnte nicht bestätigt werden. Dein Text bleibt im Formular. Bitte nicht automatisch erneut senden; kontaktiere bei Bedarf Arcdrake.',
     rate: 'Zu viele Anfragen. Dein Text bleibt im Formular. Bitte warte vor dem nächsten Sendeversuch.',
     capacity: 'Der Feedbackspeicher ist derzeit voll. Dein Text bleibt im Formular. Kontaktiere bei Bedarf Arcdrake.',
   },
@@ -38,8 +38,8 @@ export const NOTICES = Object.freeze({
 
 // Full notice for privacy pages; the form uses the brief NOTICES.feedback line.
 export const FEEDBACK_PRIVACY = Object.freeze({
-  "en": "Feedback policy updated 27 October 2026. Forwarding applies only to new submissions after this update takes effect; earlier feedback keeps its original 30-day expiry and is not automatically forwarded. Feedback is sent to Arcdrake only when you submit it: product, category, message and optional reply email. It is independent of usage counts. Authorized operators and agents handle your message; a reply is not guaranteed. The website working copy is accessible for 30 days, then hidden and removed by hourly cleanup under normal operation; platform failures can delay physical deletion. Provider recovery backups have separate retention. Feedback is also queued for forwarding through Microsoft 365 to Arcdrake’s contact mailbox. A saved receipt confirms website storage and queueing, not inbox delivery or a human response. Mailbox correspondence is deleted when no longer needed, subject to statutory retention obligations or the establishment, exercise or defence of legal claims. Use the contact link with your receipt ID to request deletion. Hosting processes connection metadata separately; IP addresses are not stored with feedback. Please leave out sensitive information.",
-  "de": "Feedbackregelung vom 27. Oktober 2026. Die Weiterleitung gilt nur für neue Einsendungen nach Inkrafttreten dieser Änderung; früheres Feedback behält seine ursprüngliche 30-Tage-Frist und wird nicht automatisch weitergeleitet. Feedback wird erst mit ausdrücklichem Senden an Arcdrake übertragen: Produkt, Kategorie, Nachricht und optionale Antwortadresse. Es ist unabhängig von Nutzungszählungen. Berechtigte Bearbeitende und Agenten bearbeiten deine Nachricht; eine Antwort ist nicht garantiert. Die Website-Arbeitskopie ist 30 Tage zugänglich und wird danach ausgeblendet und im Normalbetrieb stündlich gelöscht; Plattformfehler können die tatsächliche Löschung verzögern. Wiederherstellungskopien des Anbieters haben gesonderte Fristen. Feedback wird außerdem zur Weiterleitung über Microsoft 365 an Arcdrakes Kontaktpostfach vorgemerkt. Eine Beleg-ID bestätigt Speicherung und Vormerkung auf der Website, nicht den Eingang im Postfach oder eine menschliche Antwort. E-Mail-Korrespondenz wird gelöscht, wenn sie nicht mehr benötigt wird, soweit keine gesetzlichen Aufbewahrungspflichten oder die Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen entgegenstehen. Für Löschanfragen nutze den Kontaktlink mit deiner Beleg-ID. Hosting verarbeitet Verbindungsdaten gesondert; IP-Adressen werden nicht mit Feedback gespeichert. Bitte keine sensiblen Angaben senden."
+  "en": "Feedback policy updated 27 October 2026. Forwarding applies only to new submissions after this update takes effect; earlier feedback keeps its original 30-day expiry and is not automatically forwarded. Feedback is sent to Arcdrake only when you submit it: product, category, message and optional reply email. It is independent of usage counts. Arcdrake handles your message; a reply is not guaranteed. The website working copy is accessible for 30 days, then hidden and removed by hourly cleanup under normal operation; platform failures can delay physical deletion. Cloudflare’s database recovery history can retain earlier copies for up to 30 days after deletion. Feedback is also queued for forwarding through Microsoft 365 to Arcdrake’s contact mailbox. A saved receipt confirms website storage and queueing, not inbox delivery or a human response. Mailbox correspondence is deleted when no longer needed, subject to statutory retention obligations or the establishment, exercise or defence of legal claims. Use the contact link with your receipt ID to request deletion. Hosting processes connection metadata separately; IP addresses are not stored with feedback. Please leave out sensitive information.",
+  "de": "Feedbackregelung vom 27. Oktober 2026. Die Weiterleitung gilt nur für neue Einsendungen nach Inkrafttreten dieser Änderung; früheres Feedback behält seine ursprüngliche 30-Tage-Frist und wird nicht automatisch weitergeleitet. Feedback wird erst mit ausdrücklichem Senden an Arcdrake übertragen: Produkt, Kategorie, Nachricht und optionale Antwortadresse. Es ist unabhängig von Nutzungszählungen. Arcdrake bearbeitet die Nachricht; eine Antwort ist nicht garantiert. Die Website-Arbeitskopie ist 30 Tage zugänglich und wird danach ausgeblendet und im Normalbetrieb stündlich gelöscht; Plattformfehler können die tatsächliche Löschung verzögern. Cloudflares Datenbank-Wiederherstellungsverlauf kann frühere Kopien bis zu 30 Tage nach der Löschung enthalten. Feedback wird außerdem zur Weiterleitung über Microsoft 365 an Arcdrakes Kontaktpostfach vorgemerkt. Eine Beleg-ID bestätigt Speicherung und Vormerkung auf der Website, nicht den Eingang im Postfach oder eine menschliche Antwort. E-Mail-Korrespondenz wird gelöscht, wenn sie nicht mehr benötigt wird, soweit keine gesetzlichen Aufbewahrungspflichten oder die Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen entgegenstehen. Für Löschanfragen ist der Kontaktlink mit der Beleg-ID vorgesehen. Hosting verarbeitet Verbindungsdaten gesondert; IP-Adressen werden nicht mit Feedback gespeichert. Bitte keine sensiblen Angaben senden."
 });
 
 export function createMeasurementClient({ product, fetchImpl = globalThis.fetch,
@@ -228,6 +228,8 @@ export function mountConsentWindow(container, client, { language = 'en', privacy
   let lang = language === 'de' ? 'de' : 'en';
   const add = (parent, tag) => { const node = doc.createElement(tag); parent.append(node); return node; };
   const reopen = add(container, 'button'); reopen.type = 'button';
+  const persistence = add(container, 'p'); persistence.className = 'arcdrake-consent-persistence';
+  persistence.setAttribute('role', 'status'); persistence.hidden = true;
   const heading = add(dialog, 'h2'); heading.id = `arcdrake-consent-${++consentSerial}`;
   dialog.setAttribute('aria-labelledby', heading.id);
   Object.assign(dialog.style ??= {}, { boxSizing: 'border-box', position: native ? 'fixed' : 'relative', inset: native ? '0' : 'auto', margin: native ? 'auto' : '1rem 0', width: 'min(32rem, calc(100vw - 2rem))', font: '400 1rem/1.5 system-ui, sans-serif',
@@ -246,7 +248,9 @@ export function mountConsentWindow(container, client, { language = 'en', privacy
   const status = add(dialog, 'p'); status.setAttribute('role', 'status');
   const refresh = () => {
     const de = lang === 'de', copy = NOTICES[lang];
-    dialog.lang = lang;
+    dialog.lang = persistence.lang = lang;
+    persistence.hidden = client.choicePersistence() !== 'page' || client.choice() === 'unset';
+    persistence.textContent = persistence.hidden ? '' : copy.pageOnly;
     heading.textContent = reopen.textContent = de ? 'Datenschutzeinstellungen' : 'Privacy choices';
     purpose.textContent = de
       ? 'Arcdrake (Michael Eigner-Dietl) möchte mit deiner Einwilligung Nutzungsaktionen zählen, um Spiele und Werkzeuge zu verbessern. Ohne Zustimmung bleibt die Zählung aus. Website und Feedback funktionieren in beiden Fällen. Du kannst jederzeit über „Datenschutzeinstellungen“ widerrufen.'
@@ -274,7 +278,7 @@ export function mountConsentWindow(container, client, { language = 'en', privacy
   const stored = () => refresh(); doc.defaultView?.addEventListener('storage', stored);
   (native ? doc.body : container).append(dialog); refresh();
   if (autoOpen && client.choice() === 'unset') show();
-  return { refresh, destroy() { if (native && dialog.open) dialog.close(); dialog.remove(); reopen.remove(); styles.remove();
+  return { refresh, destroy() { if (native && dialog.open) dialog.close(); dialog.remove(); reopen.remove(); persistence.remove(); styles.remove();
     doc.defaultView?.removeEventListener('arcdrake-language-change', languageChanged); doc.defaultView?.removeEventListener('storage', stored); } };
 }
 

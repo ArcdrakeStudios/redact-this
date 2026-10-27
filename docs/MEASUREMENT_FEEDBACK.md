@@ -103,7 +103,7 @@ downloads, layout or device compatibility.
 
 ## Consent and feedback notice update — 27 October 2026
 
-This private source candidate copies the reviewed canonical shared client/contract from consent source `d8c50c8`. Both copied modules are explicitly LF in `.gitattributes` to preserve byte parity across checkouts. No production push, API activation or deployment is included. Local task behavior and privacy gates remain intact.
+This private source candidate copies the reviewed canonical shared client/contract from the integrated Sites repair (client SHA-256 `3534352a635b1a9daae53492056f51b7754d0c6f40316bb7b311ecd87f46dfb0`). Both copied modules are explicitly LF in `.gitattributes` to preserve byte parity across checkouts. No production push, API activation or deployment is included. Local task behavior and privacy gates remain intact.
 
 The feedback area has a short intro and fields; analytics detail and equally usable allow/decline controls live in the separate branded Privacy choices window. Existing EN/DE privacy/contact links remain. The current client adds exact `noticeVersion: "2026-10-27-mail-v1"` to explicit feedback payloads. This identifies its notice version, not proof that a human read it. An old tab/client without the marker remains storage-only forever; it cannot be replayed into mail.
 

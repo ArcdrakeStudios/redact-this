@@ -13,7 +13,7 @@ try {
   const page = await context.newPage();
   const errors=[]; page.on('pageerror',error=>errors.push(error.message));
   await page.goto(url+'/?lang=de');
-  await page.getByRole('dialog').getByRole('button', {name:/Continue without usage counts|Ohne Nutzungszählung fortfahren/}).click();
+  await page.getByRole('dialog').getByRole('button', {name:/No usage counts|Ohne Nutzungszählung/}).click();
 
   await page.waitForFunction(()=>document.documentElement.lang==='de');
   assert.match(await page.locator('h1').innerText(), shrink ? /Verkleinere/ : /Verdecke/);

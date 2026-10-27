@@ -142,7 +142,7 @@ async function caseWithPage(label,run) {
   context.on('response',response=>{if(response.status()>=400) badResponses.push({url:response.url(),status:response.status()});});
   try {
     await page.goto(`${base}/?lang=en`);
-  await page.getByRole('dialog').getByRole('button', {name:/Continue without usage counts|Ohne Nutzungszählung fortfahren/}).click();
+  await page.getByRole('dialog').getByRole('button', {name:/No usage counts|Ohne Nutzungszählung/}).click();
  await page.locator('#language').waitFor();
     await run(page,context);
     assert.deepEqual(errors,[],'uncaught browser errors');

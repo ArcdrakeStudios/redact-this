@@ -17,6 +17,7 @@ npm ci
 npx playwright install chromium
 npm test
 npm run test:ci
+npm run test:pdf:browser
 npm run test:i18n
 npm run package:release
 ```

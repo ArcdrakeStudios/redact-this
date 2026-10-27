@@ -49,6 +49,8 @@ async function pixels(buffer) {
 
 try {
   await page.goto('http://127.0.0.1:43148');
+  await page.getByRole('dialog').getByRole('button', {name:/Continue without usage counts|Ohne Nutzungszählung fortfahren/}).click();
+
   await page.screenshot({path:'artifacts/desktop-empty.png',fullPage:true});
   const fixtures = await page.evaluate(() => {
     const c=document.createElement('canvas'); c.width=640; c.height=400;

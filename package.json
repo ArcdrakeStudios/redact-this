@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.mjs",
+    "test:local": "node scripts/test-local.mjs",
     "test:browser": "node tests/browser.mjs",
+    "test:pdf:browser": "node tests/pdf-browser.mjs",
     "build": "node scripts/package.mjs",
     "test:ci": "node ci/browser.mjs",
     "package:release": "node scripts/package.mjs",
@@ -25,5 +27,9 @@
   },
   "bugs": {
     "url": "https://github.com/ArcdrakeStudios/redact-this/issues"
+  },
+  "dependencies": {
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "6.4.299"
   }
 }

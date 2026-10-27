@@ -6,12 +6,13 @@ header {display:flex;justify-content:space-between;align-items:center;border-bot
 .brand {display:flex;gap:12px;align-items:center;text-decoration:none;color:inherit;font-size:23px}
 .brand span,.privacy {font-size:11px;color:#69766e;letter-spacing:1px}
 .brand span {margin-left:12px}
-.intro {padding:30px 0 20px}
+.intro {padding:0 0 8px;max-width:780px}
 .eyebrow {font-size:11px;font-weight:700;letter-spacing:2px;color:#63766b}
-h1 {font-size:clamp(40px,4.5vw,68px);letter-spacing:-3px;line-height:1.07;font-weight:600;margin:20px 0}
+h1 {font-size:clamp(30px,4vw,52px);letter-spacing:-1.5px;line-height:1.1;font-weight:600;margin:8px 0}
 .intro>p:last-child {line-height:1.65;color:#63716d;font-size:16px}
 .notice {padding:13px 17px;background:#e8ecde;border-radius:9px;font-size:12px;color:#4d604c;margin-bottom:24px}
-.upload {border:1px dashed #adb9af;border-radius:16px;text-align:center;background:#fffefa;padding:48px 20px}
+.upload {border:1px dashed #adb9af;border-radius:16px;text-align:center;background:#fffefa;padding:16px;margin:8px 0 16px}
+.start-actions {display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 .upload-icon {font-size:42px;color:#577761}
 h2 {font-size:16px;margin:14px 0}
 .upload p {font-size:13px;color:#6a776f}
@@ -19,7 +20,7 @@ button {font:inherit;font-size:13px;border:1px solid #bdc9be;background:#fffefa;
 button:hover {background:#e6edde}
 button.primary {background:#294a38;color:white;border-color:#294a38}
 button:disabled {opacity:.45;cursor:default}
-button:focus-visible,input:focus-visible,canvas:focus-visible {outline:3px solid #92b273;outline-offset:3px}
+button:focus-visible,input:focus-visible,canvas:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible {outline:3px solid #577761;outline-offset:3px}
 .fine {font-size:11px!important;line-height:1.65;color:#748078}
 #status {min-height:22px;font-size:13px;color:#3d6949}
 .toolbar {display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
@@ -30,6 +31,11 @@ button:focus-visible,input:focus-visible,canvas:focus-visible {outline:3px solid
 .panel-heading {display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:15px}
 .panel-heading h2 {font-size:14px;margin:0}.panel-heading span {font-size:11px;color:#72816f}
 .canvas-wrap {border:1px solid #dae0d7;background:repeating-conic-gradient(#eee 0% 25%,white 0% 50%) 50% / 20px 20px;line-height:0;position:relative}
+.canvas-wrap {overflow:auto;max-height:80vh}
+.pdf-controls,.operation {display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;font-size:12px}
+.pdf-controls label {flex-direction:row;align-items:center}
+.pdf-controls select {font:inherit;padding:8px;border:1px solid #bdc9be;border-radius:6px;background:white;color:#294934}
+.operation #status {flex:1;margin:0;min-width:180px}
 canvas {max-width:100%;height:auto;display:block;touch-action:none;cursor:crosshair;margin:auto}
 .controls h2 {margin-top:0}.fields {display:grid;grid-template-columns:1fr 1fr;gap:12px}
 label {display:flex;flex-direction:column;font-size:11px;gap:6px;color:#5b6e5d}
@@ -44,3 +50,12 @@ footer {display:flex;justify-content:space-between;font-size:11px;color:#74816d;
 
 #language-control{display:flex;align-items:center;gap:.4rem;font-size:.8rem;white-space:nowrap}#language-control select{width:auto;min-width:6rem;padding:.4rem;color:inherit;background:transparent;border:1px solid currentColor;border-radius:.3rem}header{flex-wrap:wrap;gap:1rem}#language-control option{color:#17253d;background:#fff}
 #language-control{flex-wrap:wrap;white-space:normal;max-width:100%}#language-control select{max-width:100%;min-width:0}
+#feedback-area {margin-top:24px;padding:20px;border:1px solid #bdc9be;border-radius:14px;background:#fffefa;font-size:13px;line-height:1.6;overflow-wrap:anywhere}
+#feedback-area a {color:#294a38;text-underline-offset:3px}
+#measurement-feedback button {margin:4px 8px 4px 0;min-height:44px}
+#measurement-feedback form {max-width:680px;border-top:1px solid #bdc9be;margin-top:16px;padding-top:8px}
+#measurement-feedback label {font-size:13px;margin:12px 0}
+#measurement-feedback select,#measurement-feedback textarea {font:inherit;padding:10px;border:1px solid #bdc9be;border-radius:6px;color:#243a2b;background:white;max-width:100%}
+#measurement-feedback textarea {width:100%;min-height:120px;resize:vertical}
+#feedback-local {padding:12px;background:#e8ecde;border-radius:7px}
+@media(max-width:480px){header{padding:12px 16px;gap:8px}.brand{font-size:19px}.privacy{display:none}main{padding:12px 16px}.intro>p:last-child{font-size:14px;line-height:1.45;margin:8px 0}h1{font-size:30px}.upload{padding:12px}.upload h2{margin:4px 0 12px}.upload p{margin:8px 0}#feedback-area{padding:14px}}

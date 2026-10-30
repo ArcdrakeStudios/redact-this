@@ -1,6 +1,29 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {imageFile, mountImageSave} from '../dist/image-save.js';
+test('switching language refreshes an existing image share action without re-encoding or sharing', () => {
+  const previous=globalThis.document;
+  const element=()=>({children:[],append(...items){this.children.push(...items);}});
+  const events=new EventTarget();
+  globalThis.document={documentElement:{lang:'en'},defaultView:events,createElement:element};
+  try {
+    let shares=0;
+    const parent=element();
+    const save=mountImageSave(parent,()=>{}, {canShare:()=>true,share:()=>{shares++;}});
+    save.set(new Blob(['pixels'],{type:'image/png'}),'sample.png');
+    const [box]=parent.children, [button,note]=box.children;
+    document.documentElement.lang='de';events.dispatchEvent(new Event('arcdrake-language-change'));
+    assert.equal(button.textContent,'Bild speichern oder teilen');
+    assert.match(note.textContent,/Auf dem iPhone/);
+    assert.equal(box.hidden,false);
+    document.documentElement.lang='en';events.dispatchEvent(new Event('arcdrake-language-change'));
+    assert.equal(button.textContent,'Save or share image');
+    assert.match(note.textContent,/On iPhone/);
+    assert.equal(shares,0);
+    save.clear();events.dispatchEvent(new Event('arcdrake-language-change'));
+    assert.equal(box.hidden,true);
+  } finally {globalThis.document=previous;}
+});
 
 test('native image saving requires supported files; PDFs and unsupported browsers fall back', () => {
   const png = new Blob(['pixels'], {type:'image/png'});

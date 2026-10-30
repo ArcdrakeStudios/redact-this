@@ -17,6 +17,7 @@ export function mountImageSave(parent, report, nav = navigator) {
     button.textContent = de() ? 'Bild speichern oder teilen' : 'Save or share image';
     note.textContent = de() ? 'Auf dem iPhone im Teilen-Menü „Bild sichern“ wählen, falls angeboten. Der Download speichert eine Datei.' : 'On iPhone, choose “Save Image” in the share sheet if offered. Download saves a file.';
   };
+  document.defaultView?.addEventListener('arcdrake-language-change', copy);
   button.onclick = async () => {
     if (!file || sharing) return;
     const current = revision; sharing = true; button.disabled = true;
